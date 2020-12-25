@@ -7,12 +7,14 @@ FILE_PATH_OUT = "ranked.csv"
 def mult(y):
     # Most recent = 2020
     # Oldest = 1993
-    if y >= 2015:
+    if y == 2020:
         return 50
+    elif y >= 2015:
+        return 40
     elif y >= 2010:
-        return 20
+        return 10
     elif y >= 2000:
-        return 5
+        return 3
     else:
         return 1
 
