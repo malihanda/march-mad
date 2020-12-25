@@ -2,20 +2,20 @@ import requests
 
 from bs4 import BeautifulSoup
 
-URL = "https://www.xwordinfo.com/Popular?year={}"
-FILE_PATH = "words.csv"
-DATA = ["year,word,count"]
+URL = "https://www.xwordinfo.com/Popular"
+FILE_PATH = "words-all-time.csv"
+DATA = ["word,count"]
 
 
-# Request the web page using the year-specific URL
+# Request the web page
 def request_page(url):
     page = requests.get(url)
     html = BeautifulSoup(page.content, "html.parser")
     return html
 
 
-# Return a list of (word, count) pairs
-def parse_table(html, yr):
+# Grab each word and word count
+def parse_table(html):
 
     # Pull the rows of the table, excluding the header
     rows = html.find_all("tr")[1:]
@@ -28,7 +28,7 @@ def parse_table(html, yr):
             if len(w.text) > 4:
                 continue
 
-            line = "{},{},{}".format(yr, w.text, c)
+            line = "{},{}".format(w.text, c)
             DATA.append(line)
 
     return
@@ -36,11 +36,8 @@ def parse_table(html, yr):
 
 if __name__ == "__main__":
 
-    for yr in range(1993, 2021):
-        print("Parsing {}...".format(yr))
-        url = URL.format(yr)
-        html = request_page(url)
-        parse_table(html, yr)
+    html = request_page(URL)
+    parse_table(html)
 
     with open(FILE_PATH, "w") as f:
         text = "\n".join(DATA)
