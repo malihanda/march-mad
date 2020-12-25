@@ -8,9 +8,9 @@ def mult(y):
     # Most recent = 2020
     # Oldest = 1993
     if y >= 2015:
-        return 20
+        return 50
     elif y >= 2010:
-        return 10
+        return 20
     elif y >= 2000:
         return 5
     else:
